@@ -13,40 +13,40 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    var trainName;
-    var destination;
-    var frequency;
-    var nextArrival;
-    var minutesAway;
-
     $("#add-train").on("click", function (event) {
         event.preventDefault();
 
 
-        trainName = $(".train").val().trim();
-        destination = $(".dest").val().trim();
-        frequency = $(".freq").val().trim();
-        nextArrival = $(".next").val().trim();
-        minutesAway = $(".minutes").val().trim();
+        var trainName = $("#train-name").val().trim();
+        var destination = $("#destination").val().trim();
+        var startTime = $("#first-train").val().trim();
+        var frequency = $("#frequency").val().trim();
 
-
-        database.ref().push({
-            trainName: trainName,
+        var addTrain = {
+            name: trainName,
             destination: destination,
-            frequency: frequency,
-            nextArrival: nextArrival,
-            minutesAway: minutesAway,
-        });
+            startTime: startTime,
+            frequency: frequency
+        }
 
-    });
+        database.ref().push(addTrain);
 
-    database.ref().on("value", function (snapshot) {
+        $('#train-name').val("");
+        $('#destination').val("");
+        $('#first-train').val("");
+        $('#frequency').val("");
+    })
 
+
+    database.ref().on('child_added', function (snapshot) {
         // Change the HTML to reflect
-        $(".train").text(snapshot.val().trainName);
-        $(".dest").text(snapshot.val().destination);
-        $(".freq").text(snapshot.val().frequency);
-        $(".next").text(snapshot.val().nextArrival);
-        $(".minutes").text(snapshot.val().minutesAway);
+         trainName = snapshot.val().name;
+         destination = snapshot.val().destination;
+         frequency = snapshot.val().frequency;
+         startTime = snapshot.val().startTime;
+
+         $('#add-row').append(`<tr><td>${trainName}</td><td>${destination}</td><td>${frequency}</td><td>${startTime}</td>`)
+    
+
     });
 });
