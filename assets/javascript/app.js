@@ -39,14 +39,14 @@ $(document).ready(function () {
 
 
     database.ref().on('child_added', function (snapshot) {
-        // Change the HTML to reflect
-         trainName = snapshot.val().name;
-         destination = snapshot.val().destination;
-         frequency = snapshot.val().frequency;
-         startTime = snapshot.val().startTime;
+      
+        trainName = snapshot.val().name;
+        destination = snapshot.val().destination;
+        frequency = snapshot.val().frequency;
+        startTime = snapshot.val().startTime;
 
-         $('#add-row').append(`<tr><td>${trainName}</td><td>${destination}</td><td>${frequency}</td><td>${startTime}</td>`)
-    
+        $('#add-row').append(`<tr><td>${trainName}</td><td>${destination}</td><td>${frequency}</td><td>${startTime}</td>`)
+
 
     });
 });
